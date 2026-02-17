@@ -137,7 +137,7 @@
 .textarea:focus {
     outline: none;
     border-color: var(--color-border-focus);
-    box-shadow: var(--focus-ring);
+    box-shadow: none;
 }
 
 .textarea::placeholder {
