@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './MessageInput.module.css';
+import Tooltip from './Tooltip';
 
 interface MessageInputProps {
     onSend: (message: string, author: string) => Promise<void>;
@@ -130,15 +131,16 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
             ) : (
                 <div className={styles.authorBadge}>
                     <span className={styles.authorName}>{trimmedAuthor}</span>
-                    <button
-                        type="button"
-                        className={styles.editButton}
-                        onClick={handleEditName}
-                        aria-label="Change name"
-                        title="Change your display name"
-                    >
-                        ✎
-                    </button>
+                    <Tooltip content="Change your display name" position="top">
+                        <button
+                            type="button"
+                            className={styles.editButton}
+                            onClick={handleEditName}
+                            aria-label="Change name"
+                        >
+                            ✎
+                        </button>
+                    </Tooltip>
                 </div>
             )}
 
