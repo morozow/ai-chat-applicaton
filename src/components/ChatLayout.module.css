@@ -15,6 +15,24 @@
     overflow: hidden;
 }
 
+/* Header with app title */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.title {
+    margin: 0;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
 /* Mobile: full width with comfortable spacing - Requirement 7.2 */
 @media (max-width: 639px) {
     .container {

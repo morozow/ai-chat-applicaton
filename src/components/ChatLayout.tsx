@@ -17,6 +17,9 @@ interface ChatLayoutProps {
 function ChatLayout({ children }: ChatLayoutProps): React.JSX.Element {
     return (
         <main className={styles.container}>
+            <header className={styles.header}>
+                <h1 className={styles.title}>Chat Application</h1>
+            </header>
             {children}
         </main>
     );
