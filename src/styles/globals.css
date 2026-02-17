@@ -62,21 +62,23 @@ h6 {
    -------------------------------------------------------------------------- */
 :root {
     /* Color Scheme - Custom Palette */
-    --color-primary: #2a8293;
-    --color-primary-hover: #004d72;
-    --color-primary-light: #b2e3f6;
+    --color-primary: #98C379;
+    --color-primary-hover: #7a9f5f;
+    --color-primary-light: #b8d9a0;
 
     --color-background: #02040F;
-    --color-surface: #002642;
-    --color-surface-elevated: #004d72;
+    --color-surface: #0a0d18;
+    /* Slightly lighter than background for chat area */
+    --color-surface-elevated: #02040F;
+    /* Same as background for inputs */
 
     --color-text-primary: #E5DADA;
     --color-text-secondary: #9B97B2;
     --color-text-muted: #6a737d;
     --color-text-inverse: #02040F;
 
-    --color-border: #6a737d;
-    --color-border-focus: #2a8293;
+    --color-border: #1a1d28;
+    --color-border-focus: #98C379;
 
     --color-error: #840032;
     --color-error-background: #02040F;
@@ -85,8 +87,8 @@ h6 {
     --color-success: #98C379;
 
     /* Message Bubble Colors */
-    --color-bubble-own: #2a8293;
-    --color-bubble-own-text: #E5DADA;
+    --color-bubble-own: #98C379;
+    --color-bubble-own-text: #02040F;
     --color-bubble-other: #004d72;
     --color-bubble-other-text: #E5DADA;
 
