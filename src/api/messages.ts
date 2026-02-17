@@ -6,7 +6,7 @@
  */
 
 import { apiClient, type ApiClient } from './client';
-import type { Message, MessagesResponse, SendMessageRequest } from '../types';
+import type { Message, SendMessageRequest } from '../types';
 
 export interface FetchMessagesParams {
     after?: string;
@@ -34,12 +34,13 @@ export async function fetchMessages(
         queryParams.limit = String(params.limit);
     }
 
-    const response = await client.get<MessagesResponse>(
+    // API returns messages array directly
+    const messages = await client.get<Message[]>(
         '/api/v1/messages',
         Object.keys(queryParams).length > 0 ? queryParams : undefined
     );
 
-    return response.messages;
+    return messages;
 }
 
 /**
