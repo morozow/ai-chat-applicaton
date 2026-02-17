@@ -68,7 +68,7 @@
 .cancelButton:hover {
     color: var(--color-error);
     border-color: var(--color-error);
-    background-color: transparent;
+    background-color: transparent !important;
 }
 
 .cancelButton:focus {
