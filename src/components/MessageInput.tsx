@@ -20,6 +20,8 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
         // Check if author was previously saved
         return !!localStorage.getItem(AUTHOR_STORAGE_KEY);
     });
+    const [isEditing, setIsEditing] = useState(false);
+    const [previousAuthor, setPreviousAuthor] = useState('');
 
     // Sync with localStorage when author changes
     useEffect(() => {
@@ -38,9 +40,10 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
         if (!isValid) return;
 
         // Save author name after first successful send
-        if (!authorSaved) {
+        if (!authorSaved || isEditing) {
             localStorage.setItem(AUTHOR_STORAGE_KEY, trimmedAuthor);
             setAuthorSaved(true);
+            setIsEditing(false);
         }
 
         // Trim whitespace before sending
@@ -56,9 +59,10 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
             e.preventDefault();
             if (isValid && !disabled) {
                 // Save author name after first successful send
-                if (!authorSaved) {
+                if (!authorSaved || isEditing) {
                     localStorage.setItem(AUTHOR_STORAGE_KEY, trimmedAuthor);
                     setAuthorSaved(true);
+                    setIsEditing(false);
                 }
                 onSend(trimmedMessage, trimmedAuthor);
                 setMessage('');
@@ -67,7 +71,15 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
     };
 
     const handleEditName = () => {
+        setPreviousAuthor(author);
+        setIsEditing(true);
         setAuthorSaved(false);
+    };
+
+    const handleCancelEdit = () => {
+        setAuthor(previousAuthor);
+        setIsEditing(false);
+        setAuthorSaved(true);
     };
 
     return (
@@ -85,6 +97,16 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
                         disabled={disabled}
                         aria-label="Your name"
                     />
+                    {isEditing && (
+                        <button
+                            type="button"
+                            className={styles.cancelButton}
+                            onClick={handleCancelEdit}
+                            aria-label="Cancel editing name"
+                        >
+                            ✕
+                        </button>
+                    )}
                 </div>
             ) : (
                 <div className={styles.authorBadge}>
