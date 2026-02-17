@@ -82,6 +82,14 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
         setAuthorSaved(true);
     };
 
+    const handleSaveName = () => {
+        if (trimmedAuthor.length > 0) {
+            localStorage.setItem(AUTHOR_STORAGE_KEY, trimmedAuthor);
+            setAuthorSaved(true);
+            setIsEditing(false);
+        }
+    };
+
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
             {/* Author name section - shown only if not saved yet */}
@@ -98,14 +106,25 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
                         aria-label="Your name"
                     />
                     {isEditing && (
-                        <button
-                            type="button"
-                            className={styles.cancelButton}
-                            onClick={handleCancelEdit}
-                            aria-label="Cancel editing name"
-                        >
-                            ✕
-                        </button>
+                        <>
+                            <button
+                                type="button"
+                                className={`${styles.iconButton} ${styles.saveIcon}`}
+                                onClick={handleSaveName}
+                                disabled={trimmedAuthor.length === 0}
+                                aria-label="Save name"
+                            >
+                                ✓
+                            </button>
+                            <button
+                                type="button"
+                                className={`${styles.iconButton} ${styles.cancelIcon}`}
+                                onClick={handleCancelEdit}
+                                aria-label="Cancel editing name"
+                            >
+                                ✕
+                            </button>
+                        </>
                     )}
                 </div>
             ) : (
@@ -116,6 +135,7 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
                         className={styles.editButton}
                         onClick={handleEditName}
                         aria-label="Change name"
+                        title="Change your display name"
                     >
                         ✎
                     </button>
