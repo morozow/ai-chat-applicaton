@@ -39,25 +39,80 @@ export function createApiClient(clientConfig: ApiClientConfig): ApiClient {
             let errorMessage: string;
             try {
                 const errorJson = JSON.parse(errorBody);
-                // Handle various error response formats
-                if (typeof errorJson === 'string') {
-                    errorMessage = errorJson;
-                } else if (errorJson.message) {
-                    errorMessage = errorJson.message;
-                } else if (errorJson.error) {
-                    errorMessage = typeof errorJson.error === 'string'
-                        ? errorJson.error
-                        : JSON.stringify(errorJson.error);
-                } else {
-                    // Fallback: stringify the entire error object
-                    errorMessage = JSON.stringify(errorJson);
-                }
+                errorMessage = extractErrorMessage(errorJson);
             } catch {
                 errorMessage = errorBody || response.statusText;
             }
             throw new Error(errorMessage || 'An unknown error occurred');
         }
         return response.json() as Promise<T>;
+    }
+
+    /**
+     * Extracts a human-readable error message from various API error formats.
+     * Handles validation errors with multiple field messages.
+     */
+    function extractErrorMessage(errorJson: unknown): string {
+        if (typeof errorJson === 'string') {
+            return errorJson;
+        }
+
+        if (typeof errorJson !== 'object' || errorJson === null) {
+            return JSON.stringify(errorJson);
+        }
+
+        const obj = errorJson as Record<string, unknown>;
+
+        // Direct message field
+        if (typeof obj.message === 'string') {
+            return obj.message;
+        }
+
+        // Handle error object with nested message array (validation errors)
+        // Format: { error: { message: [{ field: "author", message: "..." }] } }
+        if (obj.error && typeof obj.error === 'object') {
+            const errorObj = obj.error as Record<string, unknown>;
+
+            // Check for validation error array
+            if (Array.isArray(errorObj.message)) {
+                const messages = errorObj.message
+                    .map((item: unknown) => {
+                        if (typeof item === 'object' && item !== null) {
+                            const validationError = item as Record<string, unknown>;
+                            // Format: "Field: message" for clarity
+                            if (validationError.field && validationError.message) {
+                                return `${capitalize(String(validationError.field))}: ${validationError.message}`;
+                            }
+                            if (validationError.message) {
+                                return String(validationError.message);
+                            }
+                        }
+                        return typeof item === 'string' ? item : JSON.stringify(item);
+                    })
+                    .filter(Boolean);
+
+                if (messages.length > 0) {
+                    return messages.join('\n');
+                }
+            }
+
+            // Simple string error
+            if (typeof errorObj.message === 'string') {
+                return errorObj.message;
+            }
+
+            // Error is a string
+            if (typeof obj.error === 'string') {
+                return obj.error;
+            }
+        }
+
+        // Fallback: stringify the entire object
+        return JSON.stringify(errorJson);
+    }
+
+    function capitalize(str: string): string {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
     return {
