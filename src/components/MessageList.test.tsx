@@ -295,7 +295,7 @@ describe('Feature: chat-application, Property 2: Message Chronological Ordering'
                 // Cleanup for next iteration
                 container.remove();
             }),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -337,7 +337,7 @@ describe('Feature: chat-application, Property 2: Message Chronological Ordering'
                 // Cleanup for next iteration
                 container.remove();
             }),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 });

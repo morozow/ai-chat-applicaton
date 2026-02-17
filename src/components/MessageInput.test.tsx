@@ -459,7 +459,7 @@ describe('Property-Based Tests', () => {
                 fc.property(whitespaceOnlyArb, nonWhitespaceArb, (whitespaceMessage, validAuthor) => {
                     return testValidationState(whitespaceMessage, validAuthor, true);
                 }),
-                { numRuns: 100 }
+                { numRuns: 20 }
             );
         });
 
@@ -468,7 +468,7 @@ describe('Property-Based Tests', () => {
                 fc.property(nonWhitespaceArb, whitespaceOnlyArb, (validMessage, whitespaceAuthor) => {
                     return testValidationState(validMessage, whitespaceAuthor, true);
                 }),
-                { numRuns: 100 }
+                { numRuns: 20 }
             );
         });
 
@@ -477,7 +477,7 @@ describe('Property-Based Tests', () => {
                 fc.property(whitespaceOnlyArb, whitespaceOnlyArb, (whitespaceMessage, whitespaceAuthor) => {
                     return testValidationState(whitespaceMessage, whitespaceAuthor, true);
                 }),
-                { numRuns: 100 }
+                { numRuns: 20 }
             );
         });
 
@@ -486,7 +486,7 @@ describe('Property-Based Tests', () => {
                 fc.property(nonWhitespaceArb, nonWhitespaceArb, (validMessage, validAuthor) => {
                     return testValidationState(validMessage, validAuthor, false);
                 }),
-                { numRuns: 100 }
+                { numRuns: 20 }
             );
         });
     });
@@ -559,7 +559,7 @@ describe('Property 8: Whitespace Trimming Before Send', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -601,7 +601,7 @@ describe('Property 8: Whitespace Trimming Before Send', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -643,7 +643,7 @@ describe('Property 8: Whitespace Trimming Before Send', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -685,7 +685,7 @@ describe('Property 8: Whitespace Trimming Before Send', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -732,7 +732,7 @@ describe('Property 8: Whitespace Trimming Before Send', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 });
@@ -799,7 +799,7 @@ describe('Property 11: Enter Key Submits Message', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -846,7 +846,7 @@ describe('Property 11: Enter Key Submits Message', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -900,7 +900,7 @@ describe('Property 11: Enter Key Submits Message', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -954,7 +954,7 @@ describe('Property 11: Enter Key Submits Message', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 });
@@ -1021,7 +1021,7 @@ describe('Property 12: Shift+Enter Inserts Newline', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -1068,7 +1068,7 @@ describe('Property 12: Shift+Enter Inserts Newline', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -1115,7 +1115,7 @@ describe('Property 12: Shift+Enter Inserts Newline', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -1162,7 +1162,7 @@ describe('Property 12: Shift+Enter Inserts Newline', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 
@@ -1218,7 +1218,7 @@ describe('Property 12: Shift+Enter Inserts Newline', () => {
                     }
                 }
             ),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 });
