@@ -39,11 +39,23 @@ export function createApiClient(clientConfig: ApiClientConfig): ApiClient {
             let errorMessage: string;
             try {
                 const errorJson = JSON.parse(errorBody);
-                errorMessage = errorJson.message || errorJson.error || response.statusText;
+                // Handle various error response formats
+                if (typeof errorJson === 'string') {
+                    errorMessage = errorJson;
+                } else if (errorJson.message) {
+                    errorMessage = errorJson.message;
+                } else if (errorJson.error) {
+                    errorMessage = typeof errorJson.error === 'string'
+                        ? errorJson.error
+                        : JSON.stringify(errorJson.error);
+                } else {
+                    // Fallback: stringify the entire error object
+                    errorMessage = JSON.stringify(errorJson);
+                }
             } catch {
                 errorMessage = errorBody || response.statusText;
             }
-            throw new Error(errorMessage);
+            throw new Error(errorMessage || 'An unknown error occurred');
         }
         return response.json() as Promise<T>;
     }
