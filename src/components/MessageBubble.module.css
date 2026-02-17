@@ -1,0 +1,80 @@
+/* ==========================================================================
+   MessageBubble Component Styles
+   ========================================================================== */
+
+.bubble {
+    max-width: 80%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-lg);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Own messages - aligned right with primary color */
+.own {
+    align-self: flex-end;
+    background-color: var(--color-bubble-own);
+    color: var(--color-bubble-own-text);
+    border-bottom-right-radius: var(--radius-sm);
+}
+
+/* Other messages - aligned left with secondary color */
+.other {
+    align-self: flex-start;
+    background-color: var(--color-bubble-other);
+    color: var(--color-bubble-other-text);
+    border-bottom-left-radius: var(--radius-sm);
+}
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.author {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.own .author {
+    color: var(--color-bubble-own-text);
+}
+
+.other .author {
+    color: var(--color-text-primary);
+}
+
+.timestamp {
+    font-size: var(--font-size-xs);
+    opacity: 0.8;
+}
+
+.own .timestamp {
+    color: var(--color-bubble-own-text);
+}
+
+.other .timestamp {
+    color: var(--color-text-secondary);
+}
+
+.text {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    white-space: pre-wrap;
+}
+
+/* Responsive adjustments */
+@media (min-width: 640px) {
+    .bubble {
+        max-width: 70%;
+    }
+}
+
+@media (min-width: 768px) {
+    .bubble {
+        max-width: 60%;
+    }
+}
