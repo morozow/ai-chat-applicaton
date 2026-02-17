@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Tooltip Component Styles
+   ========================================================================== */
+
+.wrapper {
+    display: inline-flex;
+}
+
+.tooltip {
+    position: fixed;
+    z-index: 9999;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    background-color: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Position: Top (default) */
+.top {
+    transform: translate(-50%, -100%);
+}
+
+/* Position: Bottom */
+.bottom {
+    transform: translate(-50%, 0);
+}
+
+/* Position: Left */
+.left {
+    transform: translate(-100%, -50%);
+}
+
+/* Position: Right */
+.right {
+    transform: translate(0, -50%);
+}
