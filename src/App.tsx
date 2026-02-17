@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useCallback } from 'react';
 import ChatLayout from './components/ChatLayout';
 import MessageList from './components/MessageList';
 import MessageInput from './components/MessageInput';
@@ -28,28 +28,13 @@ function App() {
     hasMore,
   } = useMessages();
 
-  const messageListRef = useRef<HTMLDivElement>(null);
-
   /**
-   * Scrolls the message list to the bottom.
-   * Called after successfully sending a message.
-   */
-  const scrollToBottom = useCallback(() => {
-    if (messageListRef.current) {
-      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
-    }
-  }, []);
-
-  /**
-   * Handles sending a message and scrolling to bottom on success.
+   * Handles sending a message.
    * @requirements 4.6, 4.7
    */
   const handleSendMessage = useCallback(async (message: string, author: string) => {
     await sendMessage(message, author);
-    // Scroll to bottom after successful send
-    // Use setTimeout to ensure the DOM has updated with the new message
-    setTimeout(scrollToBottom, 0);
-  }, [sendMessage, scrollToBottom]);
+  }, [sendMessage]);
 
   return (
     <ChatLayout>
@@ -61,15 +46,13 @@ function App() {
         />
       )}
 
-      {/* Message list with ref for scroll control */}
-      <div ref={messageListRef} style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-        <MessageList
-          messages={messages}
-          isLoading={isLoading}
-          onLoadMore={loadMore}
-          hasMore={hasMore}
-        />
-      </div>
+      {/* Message list - takes remaining space and scrolls internally */}
+      <MessageList
+        messages={messages}
+        isLoading={isLoading}
+        onLoadMore={loadMore}
+        hasMore={hasMore}
+      />
 
       {/* Message input form */}
       <MessageInput
