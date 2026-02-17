@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import * as fc from 'fast-check';
 import MessageList from './MessageList';
 import type { Message } from '../types';
 
@@ -236,5 +237,107 @@ describe('MessageList', () => {
             expect(messageElements[1]).toHaveTextContent('Middle');
             expect(messageElements[2]).toHaveTextContent('Newest');
         });
+    });
+});
+
+
+/**
+ * Property-Based Tests
+ * Feature: chat-application, Property 2: Message Chronological Ordering
+ * **Validates: Requirements 2.3**
+ *
+ * Property: For any array of messages displayed in the Message_List, the messages
+ * SHALL be ordered chronologically with the oldest message at the top (lowest index)
+ * and the newest message at the bottom (highest index).
+ *
+ * Note: The MessageList component preserves the order of messages as provided.
+ * The caller (useMessages hook) is responsible for sorting messages chronologically.
+ * This test verifies that the component renders messages in the exact order provided.
+ */
+describe('Feature: chat-application, Property 2: Message Chronological Ordering', () => {
+    // Generate valid ISO timestamp strings using integer timestamps
+    const timestampArbitrary = fc
+        .integer({ min: 1577836800000, max: 1893456000000 }) // 2020-01-01 to 2030-01-01
+        .map((ms) => new Date(ms).toISOString());
+
+    // Arbitrary for generating valid Message objects
+    const messageArbitrary = fc.record({
+        id: fc.uuid(),
+        message: fc.string({ minLength: 1, maxLength: 200 }),
+        author: fc.string({ minLength: 1, maxLength: 50 }),
+        timestamp: timestampArbitrary,
+    });
+
+    // Arbitrary for generating arrays of messages (1-20 messages)
+    const messagesArbitrary = fc.array(messageArbitrary, { minLength: 1, maxLength: 20 });
+
+    it('should render messages in the exact order provided (preserving chronological order)', () => {
+        fc.assert(
+            fc.property(messagesArbitrary, (messages) => {
+                const { container } = render(
+                    <MessageList messages={messages} isLoading={false} />
+                );
+
+                // Get all rendered message articles
+                const messageElements = container.querySelectorAll('article');
+
+                // The number of rendered messages should match input
+                expect(messageElements.length).toBe(messages.length);
+
+                // Each message should be rendered in the same order as provided
+                messages.forEach((message, index) => {
+                    const element = messageElements[index];
+                    // Verify the message text is present in the correct position
+                    expect(element.textContent).toContain(message.message);
+                    expect(element.textContent).toContain(message.author);
+                });
+
+                // Cleanup for next iteration
+                container.remove();
+            }),
+            { numRuns: 100 }
+        );
+    });
+
+    it('should maintain message order when messages are sorted chronologically (oldest first)', () => {
+        fc.assert(
+            fc.property(messagesArbitrary, (unsortedMessages) => {
+                // Sort messages chronologically (oldest first, as required by 2.3)
+                const sortedMessages = [...unsortedMessages].sort(
+                    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+                );
+
+                const { container } = render(
+                    <MessageList messages={sortedMessages} isLoading={false} />
+                );
+
+                const messageElements = container.querySelectorAll('article');
+
+                // Verify messages are rendered in chronological order
+                expect(messageElements.length).toBe(sortedMessages.length);
+
+                // The first rendered message should be the oldest
+                if (sortedMessages.length > 0) {
+                    expect(messageElements[0].textContent).toContain(sortedMessages[0].message);
+                }
+
+                // The last rendered message should be the newest
+                if (sortedMessages.length > 1) {
+                    const lastIndex = sortedMessages.length - 1;
+                    expect(messageElements[lastIndex].textContent).toContain(
+                        sortedMessages[lastIndex].message
+                    );
+                }
+
+                // Verify all messages maintain their sorted order
+                sortedMessages.forEach((message, index) => {
+                    expect(messageElements[index].textContent).toContain(message.message);
+                });
+
+                // Cleanup for next iteration
+                container.remove();
+            }),
+            { numRuns: 100 }
+        );
     });
 });
