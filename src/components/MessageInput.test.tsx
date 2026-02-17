@@ -71,6 +71,41 @@ describe('MessageInput', () => {
             const form = container.querySelector('form');
             expect(form).toBeInTheDocument();
         });
+
+        /**
+         * Additional accessibility tests for Requirements 9.3, 9.4
+         * Testing label-input associations using htmlFor/id attributes
+         */
+        it('associates message label with textarea using htmlFor/id', () => {
+            const { container } = render(<MessageInput onSend={mockOnSend} />);
+
+            const label = container.querySelector('label[for="message-input"]');
+            const textarea = container.querySelector('textarea#message-input');
+
+            expect(label).toBeInTheDocument();
+            expect(textarea).toBeInTheDocument();
+            expect(label).toHaveAttribute('for', 'message-input');
+            expect(textarea).toHaveAttribute('id', 'message-input');
+        });
+
+        it('associates author label with input using htmlFor/id', () => {
+            const { container } = render(<MessageInput onSend={mockOnSend} />);
+
+            const label = container.querySelector('label[for="author-input"]');
+            const input = container.querySelector('input#author-input');
+
+            expect(label).toBeInTheDocument();
+            expect(input).toBeInTheDocument();
+            expect(label).toHaveAttribute('for', 'author-input');
+            expect(input).toHaveAttribute('id', 'author-input');
+        });
+
+        it('has aria-label attribute on send button', () => {
+            render(<MessageInput onSend={mockOnSend} />);
+
+            const button = screen.getByRole('button', { name: /send/i });
+            expect(button).toHaveAttribute('aria-label', 'Send message');
+        });
     });
 
     describe('defaultAuthor prop', () => {
