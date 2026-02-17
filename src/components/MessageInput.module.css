@@ -22,8 +22,9 @@
 
 .authorInput {
     flex: 1;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-sm);
+    min-height: 40px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-base);
     color: var(--color-text-primary);
     background-color: var(--color-surface-elevated);
     border: 1px solid var(--color-border);
@@ -46,15 +47,15 @@
     cursor: not-allowed;
 }
 
-/* Cancel edit button */
+/* Cancel edit button - same size as send button */
 .cancelButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     padding: 0;
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-lg);
     color: var(--color-text-secondary);
     background-color: transparent;
     border: 1px solid var(--color-border);
