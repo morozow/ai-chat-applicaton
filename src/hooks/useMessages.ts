@@ -54,7 +54,7 @@ export function useMessages(limit: number = DEFAULT_LIMIT): UseMessagesReturn {
             // API returns messages in reverse chronological order (newest first)
             // We need to reverse them for display (oldest first, newest at bottom)
             const sortedMessages = [...fetchedMessages].sort(
-                (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+                (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
             );
 
             setMessages(sortedMessages);
@@ -114,7 +114,7 @@ export function useMessages(limit: number = DEFAULT_LIMIT): UseMessagesReturn {
 
         try {
             // Get the oldest timestamp from current messages
-            const oldestTimestamp = messages[0]?.timestamp;
+            const oldestTimestamp = messages[0]?.createdAt;
 
             // Fetch older messages using the after parameter
             const olderMessages = await fetchMessages({
@@ -125,7 +125,7 @@ export function useMessages(limit: number = DEFAULT_LIMIT): UseMessagesReturn {
             if (olderMessages.length > 0) {
                 // Sort older messages chronologically (oldest first)
                 const sortedOlderMessages = [...olderMessages].sort(
-                    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+                    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
                 );
 
                 // Prepend older messages to the beginning of the list

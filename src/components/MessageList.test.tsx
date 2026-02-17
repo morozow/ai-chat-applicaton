@@ -10,7 +10,7 @@ function createMessage(overrides: Partial<Message> = {}): Message {
         id: '1',
         message: 'Test message',
         author: 'Test Author',
-        timestamp: '2024-01-15T10:30:00.000Z',
+        createdAt: '2024-01-15T10:30:00.000Z',
         ...overrides,
     };
 }
@@ -256,17 +256,17 @@ describe('MessageList', () => {
                 createMessage({
                     id: '1',
                     message: 'Oldest',
-                    timestamp: '2024-01-01T10:00:00.000Z',
+                    createdAt: '2024-01-01T10:00:00.000Z',
                 }),
                 createMessage({
                     id: '2',
                     message: 'Middle',
-                    timestamp: '2024-01-02T10:00:00.000Z',
+                    createdAt: '2024-01-02T10:00:00.000Z',
                 }),
                 createMessage({
                     id: '3',
                     message: 'Newest',
-                    timestamp: '2024-01-03T10:00:00.000Z',
+                    createdAt: '2024-01-03T10:00:00.000Z',
                 }),
             ];
 
@@ -308,7 +308,7 @@ describe('Feature: chat-application, Property 2: Message Chronological Ordering'
         id: fc.uuid(),
         message: fc.string({ minLength: 1, maxLength: 200 }),
         author: fc.string({ minLength: 1, maxLength: 50 }),
-        timestamp: timestampArbitrary,
+        createdAt: timestampArbitrary,
     });
 
     // Arbitrary for generating arrays of messages (1-20 messages)
@@ -347,7 +347,7 @@ describe('Feature: chat-application, Property 2: Message Chronological Ordering'
             fc.property(messagesArbitrary, (unsortedMessages) => {
                 // Sort messages chronologically (oldest first, as required by 2.3)
                 const sortedMessages = [...unsortedMessages].sort(
-                    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+                    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
                 );
 
                 const { container } = render(

@@ -9,7 +9,7 @@ describe('MessageBubble', () => {
         id: '1',
         message: 'Hello, world!',
         author: 'John Doe',
-        timestamp: '2024-01-15T10:30:00.000Z',
+        createdAt: '2024-01-15T10:30:00.000Z',
         ...overrides,
     });
 
@@ -29,7 +29,7 @@ describe('MessageBubble', () => {
         });
 
         it('displays a formatted timestamp', () => {
-            const message = createMessage({ timestamp: '2024-01-15T10:30:00.000Z' });
+            const message = createMessage({ createdAt: '2024-01-15T10:30:00.000Z' });
             render(<MessageBubble message={message} />);
 
             // The timestamp should be formatted as human-readable
@@ -44,7 +44,7 @@ describe('MessageBubble', () => {
             const message = createMessage({
                 author: 'Bob',
                 message: 'Complete message',
-                timestamp: '2024-06-20T14:45:00.000Z',
+                createdAt: '2024-06-20T14:45:00.000Z',
             });
             render(<MessageBubble message={message} />);
 
@@ -84,7 +84,7 @@ describe('MessageBubble', () => {
 
     describe('timestamp formatting', () => {
         it('handles valid ISO timestamps', () => {
-            const message = createMessage({ timestamp: '2024-12-25T08:00:00.000Z' });
+            const message = createMessage({ createdAt: '2024-12-25T08:00:00.000Z' });
             render(<MessageBubble message={message} />);
 
             const timeElement = screen.getByRole('time');
@@ -92,7 +92,7 @@ describe('MessageBubble', () => {
         });
 
         it('handles timestamps with different times', () => {
-            const message = createMessage({ timestamp: '2024-03-10T23:59:00.000Z' });
+            const message = createMessage({ createdAt: '2024-03-10T23:59:00.000Z' });
             render(<MessageBubble message={message} />);
 
             const timeElement = screen.getByRole('time');
@@ -100,7 +100,7 @@ describe('MessageBubble', () => {
         });
 
         it('handles invalid timestamps gracefully', () => {
-            const message = createMessage({ timestamp: 'invalid-date' });
+            const message = createMessage({ createdAt: 'invalid-date' });
             render(<MessageBubble message={message} />);
 
             // Should not render a time element for invalid timestamps
@@ -108,7 +108,7 @@ describe('MessageBubble', () => {
         });
 
         it('handles empty timestamps gracefully', () => {
-            const message = createMessage({ timestamp: '' });
+            const message = createMessage({ createdAt: '' });
             render(<MessageBubble message={message} />);
 
             expect(screen.queryByRole('time')).not.toBeInTheDocument();
@@ -131,7 +131,7 @@ describe('MessageBubble', () => {
         });
 
         it('uses time element with dateTime attribute', () => {
-            const message = createMessage({ timestamp: '2024-01-01T12:00:00.000Z' });
+            const message = createMessage({ createdAt: '2024-01-01T12:00:00.000Z' });
             render(<MessageBubble message={message} />);
 
             const timeElement = screen.getByRole('time');
@@ -203,7 +203,7 @@ describe('Feature: chat-application, Property 3: Message Rendering Completeness'
             id: fc.uuid(),
             author: nonEmptyString,
             message: nonEmptyString,
-            timestamp: validTimestamp,
+            createdAt: validTimestamp,
         });
 
         fc.assert(
@@ -224,7 +224,7 @@ describe('Feature: chat-application, Property 3: Message Rendering Completeness'
                     // Requirement 3.3: Formatted timestamp is visible
                     const timeElement = container.querySelector('time');
                     expect(timeElement).not.toBeNull();
-                    expect(timeElement?.getAttribute('dateTime')).toBe(message.timestamp);
+                    expect(timeElement?.getAttribute('dateTime')).toBe(message.createdAt);
                     // Verify the timestamp is human-readable (not empty)
                     expect(timeElement?.textContent).not.toBe('');
                     expect(timeElement?.textContent?.length).toBeGreaterThan(0);

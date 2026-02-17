@@ -30,7 +30,7 @@ function formatTimestamp(timestamp: string): string {
 }
 
 function MessageBubble({ message, isCurrentUser = false }: MessageBubbleProps) {
-    const formattedTime = formatTimestamp(message.timestamp);
+    const formattedTime = formatTimestamp(message.createdAt);
 
     return (
         <article
@@ -40,7 +40,7 @@ function MessageBubble({ message, isCurrentUser = false }: MessageBubbleProps) {
             <header className={styles.header}>
                 <span className={styles.author}>{message.author}</span>
                 {formattedTime && (
-                    <time className={styles.timestamp} dateTime={message.timestamp}>
+                    <time className={styles.timestamp} dateTime={message.createdAt}>
                         {formattedTime}
                     </time>
                 )}
