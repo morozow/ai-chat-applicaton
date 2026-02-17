@@ -13,6 +13,7 @@
     word-break: break-word;
     hyphens: auto;
     min-width: 0;
+    text-align: left;
 }
 
 /* Own messages - aligned right with primary color */
