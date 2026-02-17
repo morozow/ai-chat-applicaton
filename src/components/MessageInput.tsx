@@ -23,6 +23,17 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
         await onSend(trimmedMessage, trimmedAuthor);
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        // Enter without Shift submits the message (when valid)
+        // Shift+Enter allows default behavior (newline insertion)
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (isValid && !disabled) {
+                onSend(trimmedMessage, trimmedAuthor);
+            }
+        }
+    };
+
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.inputGroup}>
@@ -34,6 +45,7 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
                     className={styles.textarea}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={handleKeyDown}
                     placeholder="Type your message..."
                     disabled={disabled}
                     rows={3}
