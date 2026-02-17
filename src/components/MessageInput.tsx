@@ -11,9 +11,16 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
     const [message, setMessage] = useState('');
     const [author, setAuthor] = useState(defaultAuthor);
 
+    // Validation: both message and author must have non-whitespace content
+    const trimmedMessage = message.trim();
+    const trimmedAuthor = author.trim();
+    const isValid = trimmedMessage.length > 0 && trimmedAuthor.length > 0;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        await onSend(message, author);
+        if (!isValid) return;
+        // Trim whitespace before sending
+        await onSend(trimmedMessage, trimmedAuthor);
     };
 
     return (
@@ -51,7 +58,7 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
             <button
                 type="submit"
                 className={styles.sendButton}
-                disabled={disabled}
+                disabled={disabled || !isValid}
                 aria-label="Send message"
             >
                 Send

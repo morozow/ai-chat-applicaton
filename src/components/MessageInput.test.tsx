@@ -107,27 +107,35 @@ describe('MessageInput', () => {
             expect(input).toBeDisabled();
         });
 
-        it('disables the send button when disabled is true', () => {
+        it('disables the send button when disabled is true', async () => {
+            const user = userEvent.setup();
             render(<MessageInput onSend={mockOnSend} disabled={true} />);
+
+            // Fill in valid input first
+            await user.type(screen.getByLabelText(/^message$/i), 'Hello');
+            await user.type(screen.getByLabelText(/your name/i), 'User');
 
             const button = screen.getByRole('button', { name: /send/i });
             expect(button).toBeDisabled();
         });
 
-        it('enables all inputs when disabled is false', () => {
+        it('enables inputs when disabled is false and input is valid', async () => {
+            const user = userEvent.setup();
             render(<MessageInput onSend={mockOnSend} disabled={false} />);
+
+            await user.type(screen.getByLabelText(/^message$/i), 'Hello');
+            await user.type(screen.getByLabelText(/your name/i), 'User');
 
             expect(screen.getByLabelText(/^message$/i)).not.toBeDisabled();
             expect(screen.getByLabelText(/your name/i)).not.toBeDisabled();
             expect(screen.getByRole('button', { name: /send/i })).not.toBeDisabled();
         });
 
-        it('enables all inputs by default', () => {
+        it('enables text inputs by default', () => {
             render(<MessageInput onSend={mockOnSend} />);
 
             expect(screen.getByLabelText(/^message$/i)).not.toBeDisabled();
             expect(screen.getByLabelText(/your name/i)).not.toBeDisabled();
-            expect(screen.getByRole('button', { name: /send/i })).not.toBeDisabled();
         });
     });
 
@@ -150,6 +158,110 @@ describe('MessageInput', () => {
             await user.type(input, 'Alice');
 
             expect(input).toHaveValue('Alice');
+        });
+    });
+
+    describe('input validation', () => {
+        it('disables send button when message is empty', () => {
+            render(<MessageInput onSend={mockOnSend} defaultAuthor="User" />);
+
+            const button = screen.getByRole('button', { name: /send/i });
+            expect(button).toBeDisabled();
+        });
+
+        it('disables send button when message contains only whitespace', async () => {
+            const user = userEvent.setup();
+            render(<MessageInput onSend={mockOnSend} defaultAuthor="User" />);
+
+            await user.type(screen.getByLabelText(/^message$/i), '   ');
+
+            const button = screen.getByRole('button', { name: /send/i });
+            expect(button).toBeDisabled();
+        });
+
+        it('disables send button when author is empty', async () => {
+            const user = userEvent.setup();
+            render(<MessageInput onSend={mockOnSend} />);
+
+            await user.type(screen.getByLabelText(/^message$/i), 'Hello');
+
+            const button = screen.getByRole('button', { name: /send/i });
+            expect(button).toBeDisabled();
+        });
+
+        it('disables send button when author contains only whitespace', async () => {
+            const user = userEvent.setup();
+            render(<MessageInput onSend={mockOnSend} />);
+
+            await user.type(screen.getByLabelText(/^message$/i), 'Hello');
+            await user.type(screen.getByLabelText(/your name/i), '   ');
+
+            const button = screen.getByRole('button', { name: /send/i });
+            expect(button).toBeDisabled();
+        });
+
+        it('enables send button when both message and author have content', async () => {
+            const user = userEvent.setup();
+            render(<MessageInput onSend={mockOnSend} />);
+
+            await user.type(screen.getByLabelText(/^message$/i), 'Hello');
+            await user.type(screen.getByLabelText(/your name/i), 'User');
+
+            const button = screen.getByRole('button', { name: /send/i });
+            expect(button).not.toBeDisabled();
+        });
+
+        it('prevents submission when message is empty', async () => {
+            const user = userEvent.setup();
+            render(<MessageInput onSend={mockOnSend} defaultAuthor="User" />);
+
+            // Try to submit with empty message
+            await user.click(screen.getByRole('button', { name: /send/i }));
+
+            expect(mockOnSend).not.toHaveBeenCalled();
+        });
+
+        it('prevents submission when author is empty', async () => {
+            const user = userEvent.setup();
+            render(<MessageInput onSend={mockOnSend} />);
+
+            await user.type(screen.getByLabelText(/^message$/i), 'Hello');
+            // Try to submit with empty author
+            await user.click(screen.getByRole('button', { name: /send/i }));
+
+            expect(mockOnSend).not.toHaveBeenCalled();
+        });
+
+        it('trims whitespace from message before sending', async () => {
+            const user = userEvent.setup();
+            render(<MessageInput onSend={mockOnSend} defaultAuthor="User" />);
+
+            await user.type(screen.getByLabelText(/^message$/i), '  Hello World  ');
+            await user.click(screen.getByRole('button', { name: /send/i }));
+
+            expect(mockOnSend).toHaveBeenCalledWith('Hello World', 'User');
+        });
+
+        it('trims whitespace from author before sending', async () => {
+            const user = userEvent.setup();
+            render(<MessageInput onSend={mockOnSend} />);
+
+            await user.type(screen.getByLabelText(/^message$/i), 'Hello');
+            await user.type(screen.getByLabelText(/your name/i), '  John Doe  ');
+            await user.click(screen.getByRole('button', { name: /send/i }));
+
+            expect(mockOnSend).toHaveBeenCalledWith('Hello', 'John Doe');
+        });
+
+        it('trims whitespace from both message and author before sending', async () => {
+            const user = userEvent.setup();
+            render(<MessageInput onSend={mockOnSend} />);
+
+            await user.type(screen.getByLabelText(/^message$/i), '  Test message  ');
+            await user.type(screen.getByLabelText(/your name/i), '  Test Author  ');
+            await user.click(screen.getByRole('button', { name: /send/i }));
+
+            expect(mockOnSend).toHaveBeenCalledWith('Test message', 'Test Author');
         });
     });
 
