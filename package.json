@@ -1,7 +1,9 @@
 {
-  "name": "doodle",
+  "name": "chat-application",
+  "description": "Real-time chat application built with React and TypeScript",
+  "version": "1.0.0",
+  "license": "MIT",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
