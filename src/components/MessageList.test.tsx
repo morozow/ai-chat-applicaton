@@ -17,6 +17,10 @@ function createMessage(overrides: Partial<Message> = {}): Message {
 
 describe('MessageList', () => {
     describe('accessibility', () => {
+        /**
+         * Accessibility tests for Requirements 9.1, 9.2
+         * Testing role and aria attributes on MessageList
+         */
         it('should have role="log" for screen reader identification', () => {
             render(<MessageList messages={[]} isLoading={false} />);
 
@@ -51,6 +55,45 @@ describe('MessageList', () => {
 
             const button = screen.getByRole('button', { name: /load older messages/i });
             expect(button).toBeInTheDocument();
+        });
+
+        /**
+         * Additional accessibility tests for Requirements 9.1, 9.2
+         * Testing that role and aria-live are present together for proper screen reader support
+         */
+        it('should have both role="log" and aria-live="polite" on the same element', () => {
+            render(<MessageList messages={[]} isLoading={false} />);
+
+            const container = screen.getByRole('log');
+            expect(container).toHaveAttribute('role', 'log');
+            expect(container).toHaveAttribute('aria-live', 'polite');
+        });
+
+        it('should have aria-label attribute on load more button', () => {
+            const onLoadMore = vi.fn();
+            render(
+                <MessageList
+                    messages={[createMessage()]}
+                    isLoading={false}
+                    hasMore={true}
+                    onLoadMore={onLoadMore}
+                />
+            );
+
+            const button = screen.getByRole('button', { name: /load/i });
+            expect(button).toHaveAttribute('aria-label', 'Load older messages');
+        });
+
+        it('should render messages as articles for semantic structure', () => {
+            const messages = [
+                createMessage({ id: '1', message: 'First message' }),
+                createMessage({ id: '2', message: 'Second message' }),
+            ];
+
+            render(<MessageList messages={messages} isLoading={false} />);
+
+            const articles = screen.getAllByRole('article');
+            expect(articles).toHaveLength(2);
         });
     });
 
