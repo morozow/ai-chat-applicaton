@@ -1,5 +1,6 @@
 /* ==========================================================================
    ChatLayout Component Styles
+   Requirements: 7.1, 7.2, 7.3, 7.4, 7.5
    ========================================================================== */
 
 .container {
@@ -10,22 +11,34 @@
     max-height: 100vh;
     margin: 0 auto;
     background-color: var(--color-surface);
+    /* Prevent horizontal overflow - Requirement 7.3 */
+    overflow-x: hidden;
 }
 
-/* Desktop: centered with max-width */
+/* Mobile: full width with comfortable spacing - Requirement 7.2 */
+@media (max-width: 639px) {
+    .container {
+        padding-left: var(--spacing-sm);
+        padding-right: var(--spacing-sm);
+    }
+}
+
+/* Tablet: slightly more padding */
+@media (min-width: 640px) and (max-width: 767px) {
+    .container {
+        padding-left: var(--spacing-md);
+        padding-right: var(--spacing-md);
+    }
+}
+
+/* Desktop: centered with max-width 800-960px - Requirement 7.1 */
 @media (min-width: 768px) {
     .container {
         max-width: var(--container-max-width);
         box-shadow: var(--shadow-lg);
         border-left: 1px solid var(--color-border);
         border-right: 1px solid var(--color-border);
-    }
-}
-
-/* Mobile: full width with comfortable spacing */
-@media (max-width: 767px) {
-    .container {
-        padding-left: var(--spacing-sm);
-        padding-right: var(--spacing-sm);
+        padding-left: 0;
+        padding-right: 0;
     }
 }

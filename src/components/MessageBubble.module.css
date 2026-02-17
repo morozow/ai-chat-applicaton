@@ -1,13 +1,18 @@
 /* ==========================================================================
    MessageBubble Component Styles
+   Requirements: 3.1, 3.2, 3.3, 3.4, 7.3
    ========================================================================== */
 
 .bubble {
-    max-width: 80%;
+    max-width: 85%;
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-lg);
+    /* Prevent horizontal overflow - Requirement 7.3 */
     word-wrap: break-word;
     overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    min-width: 0;
 }
 
 /* Own messages - aligned right with primary color */
@@ -66,15 +71,34 @@
     white-space: pre-wrap;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - Requirement 7.5 */
+@media (max-width: 639px) {
+    .bubble {
+        max-width: 90%;
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .header {
+        gap: var(--spacing-xs);
+    }
+
+    .author {
+        font-size: var(--font-size-xs);
+    }
+
+    .text {
+        font-size: var(--font-size-sm);
+    }
+}
+
 @media (min-width: 640px) {
     .bubble {
-        max-width: 70%;
+        max-width: 75%;
     }
 }
 
 @media (min-width: 768px) {
     .bubble {
-        max-width: 60%;
+        max-width: 65%;
     }
 }

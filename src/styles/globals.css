@@ -209,6 +209,27 @@ h6 {
    @media (min-width: 1024px) { ... } // Large desktop and up
 */
 
+/* Mobile-specific container padding */
+@media (max-width: 639px) {
+    :root {
+        --container-padding: var(--spacing-sm);
+    }
+}
+
+/* Tablet and up */
+@media (min-width: 640px) {
+    :root {
+        --container-padding: var(--spacing-md);
+    }
+}
+
+/* Desktop and up */
+@media (min-width: 768px) {
+    :root {
+        --container-padding: var(--spacing-lg);
+    }
+}
+
 /* --------------------------------------------------------------------------
    Base Styles
    -------------------------------------------------------------------------- */
@@ -225,16 +246,26 @@ body {
     background-color: var(--color-background);
 }
 
-/* Prevent horizontal scrollbars */
+/* Prevent horizontal scrollbars - Requirements 7.3 */
 html,
 body {
     overflow-x: hidden;
+    max-width: 100vw;
 }
 
 #root {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Ensure all elements respect container boundaries */
+*,
+*::before,
+*::after {
+    max-width: 100%;
 }
 
 /* --------------------------------------------------------------------------
