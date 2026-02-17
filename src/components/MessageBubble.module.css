@@ -69,6 +69,8 @@
     font-size: var(--font-size-base);
     line-height: var(--line-height-normal);
     white-space: pre-wrap;
+    text-align: left;
+    width: 100%;
 }
 
 /* Responsive adjustments - Requirement 7.5 */
