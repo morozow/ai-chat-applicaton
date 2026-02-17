@@ -46,6 +46,35 @@
     cursor: not-allowed;
 }
 
+/* Cancel edit button */
+.cancelButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.cancelButton:hover {
+    color: var(--color-error);
+    border-color: var(--color-error);
+    background-color: rgba(132, 0, 50, 0.1);
+}
+
+.cancelButton:focus {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
 /* Author badge - shown when name is saved */
 .authorBadge {
     display: flex;
