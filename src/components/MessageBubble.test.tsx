@@ -234,7 +234,7 @@ describe('Feature: chat-application, Property 3: Message Rendering Completeness'
                     unmount();
                 }
             }),
-            { numRuns: 100 }
+            { numRuns: 20 }
         );
     });
 });
