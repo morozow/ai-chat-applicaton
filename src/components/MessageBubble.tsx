@@ -40,9 +40,12 @@ function MessageBubble({ message, isCurrentUser = false }: MessageBubbleProps) {
             <header className={styles.header}>
                 <span className={styles.author}>{message.author}</span>
                 {formattedTime && (
-                    <time className={styles.timestamp} dateTime={message.createdAt}>
-                        {formattedTime}
-                    </time>
+                    <>
+                        <span className={styles.separator}>|</span>
+                        <time className={styles.timestamp} dateTime={message.createdAt}>
+                            {formattedTime}
+                        </time>
+                    </>
                 )}
             </header>
             <p className={styles.text}>{message.message}</p>
