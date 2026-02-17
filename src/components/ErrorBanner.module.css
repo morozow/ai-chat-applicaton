@@ -29,6 +29,26 @@
     overflow-wrap: break-word;
 }
 
+.messageContainer {
+    flex: 1;
+    min-width: 0;
+}
+
+.errorList {
+    margin: 0;
+    padding: 0 0 0 var(--spacing-md);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+}
+
+.errorItem {
+    margin-bottom: var(--spacing-xs);
+}
+
+.errorItem:last-child {
+    margin-bottom: 0;
+}
+
 .retryButton {
     flex-shrink: 0;
     padding: var(--spacing-xs) var(--spacing-sm);
