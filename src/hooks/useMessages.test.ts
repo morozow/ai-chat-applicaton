@@ -123,8 +123,8 @@ describe('useMessages', () => {
 
         it('sets messages after successful fetch', async () => {
             const mockMessages: Message[] = [
-                { id: '1', message: 'Hello', author: 'Alice', timestamp: '2024-01-01T10:00:00Z' },
-                { id: '2', message: 'Hi', author: 'Bob', timestamp: '2024-01-01T10:01:00Z' },
+                { id: '1', message: 'Hello', author: 'Alice', createdAt: '2024-01-01T10:00:00Z' },
+                { id: '2', message: 'Hi', author: 'Bob', createdAt: '2024-01-01T10:01:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(mockMessages);
 
@@ -140,9 +140,9 @@ describe('useMessages', () => {
         it('sorts messages chronologically (oldest first)', async () => {
             // API returns newest first
             const mockMessages: Message[] = [
-                { id: '3', message: 'Third', author: 'Charlie', timestamp: '2024-01-01T12:00:00Z' },
-                { id: '2', message: 'Second', author: 'Bob', timestamp: '2024-01-01T11:00:00Z' },
-                { id: '1', message: 'First', author: 'Alice', timestamp: '2024-01-01T10:00:00Z' },
+                { id: '3', message: 'Third', author: 'Charlie', createdAt: '2024-01-01T12:00:00Z' },
+                { id: '2', message: 'Second', author: 'Bob', createdAt: '2024-01-01T11:00:00Z' },
+                { id: '1', message: 'First', author: 'Alice', createdAt: '2024-01-01T10:00:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(mockMessages);
 
@@ -157,8 +157,8 @@ describe('useMessages', () => {
 
         it('handles already sorted messages', async () => {
             const mockMessages: Message[] = [
-                { id: '1', message: 'First', author: 'Alice', timestamp: '2024-01-01T10:00:00Z' },
-                { id: '2', message: 'Second', author: 'Bob', timestamp: '2024-01-01T11:00:00Z' },
+                { id: '1', message: 'First', author: 'Alice', createdAt: '2024-01-01T10:00:00Z' },
+                { id: '2', message: 'Second', author: 'Bob', createdAt: '2024-01-01T11:00:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(mockMessages);
 
@@ -172,8 +172,8 @@ describe('useMessages', () => {
 
         it('handles messages with same timestamp', async () => {
             const mockMessages: Message[] = [
-                { id: '1', message: 'First', author: 'Alice', timestamp: '2024-01-01T10:00:00Z' },
-                { id: '2', message: 'Second', author: 'Bob', timestamp: '2024-01-01T10:00:00Z' },
+                { id: '1', message: 'First', author: 'Alice', createdAt: '2024-01-01T10:00:00Z' },
+                { id: '2', message: 'Second', author: 'Bob', createdAt: '2024-01-01T10:00:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(mockMessages);
 
@@ -235,7 +235,7 @@ describe('useMessages', () => {
                 id: String(i),
                 message: `Message ${i}`,
                 author: 'User',
-                timestamp: new Date(2024, 0, 1, 10, i).toISOString(),
+                createdAt: new Date(2024, 0, 1, 10, i).toISOString(),
             }));
             mockFetchMessages.mockResolvedValue(mockMessages);
 
@@ -248,7 +248,7 @@ describe('useMessages', () => {
 
         it('sets hasMore to false when received messages less than limit', async () => {
             const mockMessages: Message[] = [
-                { id: '1', message: 'Hello', author: 'Alice', timestamp: '2024-01-01T10:00:00Z' },
+                { id: '1', message: 'Hello', author: 'Alice', createdAt: '2024-01-01T10:00:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(mockMessages);
 
@@ -283,7 +283,7 @@ describe('useMessages', () => {
 
             // Setup successful response for retry
             const mockMessages: Message[] = [
-                { id: '1', message: 'Hello', author: 'Alice', timestamp: '2024-01-01T10:00:00Z' },
+                { id: '1', message: 'Hello', author: 'Alice', createdAt: '2024-01-01T10:00:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(mockMessages);
 
@@ -389,7 +389,7 @@ describe('useMessages', () => {
 
             // Setup success for second retry
             const mockMessages: Message[] = [
-                { id: '1', message: 'Hello', author: 'Alice', timestamp: '2024-01-01T10:00:00Z' },
+                { id: '1', message: 'Hello', author: 'Alice', createdAt: '2024-01-01T10:00:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(mockMessages);
 
@@ -410,7 +410,7 @@ describe('useMessages', () => {
                 id: '1',
                 message: 'Hello',
                 author: 'Alice',
-                timestamp: '2024-01-01T10:00:00Z',
+                createdAt: '2024-01-01T10:00:00Z',
             };
             mockSendMessage.mockResolvedValue(newMessage);
 
@@ -453,7 +453,7 @@ describe('useMessages', () => {
                 id: '1',
                 message: 'Hello',
                 author: 'Alice',
-                timestamp: '2024-01-01T10:00:00Z',
+                createdAt: '2024-01-01T10:00:00Z',
             });
 
             await sendPromise;
@@ -465,7 +465,7 @@ describe('useMessages', () => {
 
         it('adds new message to the list on success', async () => {
             const existingMessages: Message[] = [
-                { id: '1', message: 'First', author: 'Bob', timestamp: '2024-01-01T10:00:00Z' },
+                { id: '1', message: 'First', author: 'Bob', createdAt: '2024-01-01T10:00:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(existingMessages);
 
@@ -473,7 +473,7 @@ describe('useMessages', () => {
                 id: '2',
                 message: 'Hello',
                 author: 'Alice',
-                timestamp: '2024-01-01T10:01:00Z',
+                createdAt: '2024-01-01T10:01:00Z',
             };
             mockSendMessage.mockResolvedValue(newMessage);
 
@@ -493,8 +493,8 @@ describe('useMessages', () => {
 
         it('appends new message at the end (newest at bottom)', async () => {
             const existingMessages: Message[] = [
-                { id: '1', message: 'First', author: 'Bob', timestamp: '2024-01-01T10:00:00Z' },
-                { id: '2', message: 'Second', author: 'Charlie', timestamp: '2024-01-01T10:01:00Z' },
+                { id: '1', message: 'First', author: 'Bob', createdAt: '2024-01-01T10:00:00Z' },
+                { id: '2', message: 'Second', author: 'Charlie', createdAt: '2024-01-01T10:01:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(existingMessages);
 
@@ -502,7 +502,7 @@ describe('useMessages', () => {
                 id: '3',
                 message: 'Third',
                 author: 'Alice',
-                timestamp: '2024-01-01T10:02:00Z',
+                createdAt: '2024-01-01T10:02:00Z',
             };
             mockSendMessage.mockResolvedValue(newMessage);
 
@@ -561,7 +561,7 @@ describe('useMessages', () => {
 
         it('does not modify messages on failure', async () => {
             const existingMessages: Message[] = [
-                { id: '1', message: 'First', author: 'Bob', timestamp: '2024-01-01T10:00:00Z' },
+                { id: '1', message: 'First', author: 'Bob', createdAt: '2024-01-01T10:00:00Z' },
             ];
             mockFetchMessages.mockResolvedValue(existingMessages);
             mockSendMessage.mockRejectedValue(new Error('Network error'));
@@ -632,7 +632,7 @@ describe('useMessages', () => {
                 id: '1',
                 message: 'Hello',
                 author: 'Alice',
-                timestamp: '2024-01-01T10:00:00Z',
+                createdAt: '2024-01-01T10:00:00Z',
             };
             mockSendMessage.mockResolvedValue(newMessage);
 
@@ -762,7 +762,7 @@ describe('useMessages', () => {
             it('does not load more when hasMore is false', async () => {
                 // Return fewer messages than limit to set hasMore to false
                 const mockMessages: Message[] = [
-                    { id: '1', message: 'Hello', author: 'Alice', timestamp: '2024-01-01T10:00:00Z' },
+                    { id: '1', message: 'Hello', author: 'Alice', createdAt: '2024-01-01T10:00:00Z' },
                 ];
                 mockFetchMessages.mockResolvedValue(mockMessages);
 
@@ -788,7 +788,7 @@ describe('useMessages', () => {
                     id: String(i + 1),
                     message: `Message ${i + 1}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 1, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 1, 10, i).toISOString(),
                 }));
 
                 let callCount = 0;
@@ -812,7 +812,7 @@ describe('useMessages', () => {
                 });
 
                 // Should have called with the oldest timestamp
-                const oldestTimestamp = result.current.messages[0].timestamp;
+                const oldestTimestamp = result.current.messages[0].createdAt;
                 expect(mockFetchMessages).toHaveBeenLastCalledWith({
                     after: oldestTimestamp,
                     limit: 30,
@@ -827,13 +827,13 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `New Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(), // Jan 2
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(), // Jan 2
                 }));
 
                 // Older messages to prepend
                 const olderMessages: Message[] = [
-                    { id: '1', message: 'Old 1', author: 'Alice', timestamp: '2024-01-01T08:00:00Z' },
-                    { id: '2', message: 'Old 2', author: 'Bob', timestamp: '2024-01-01T09:00:00Z' },
+                    { id: '1', message: 'Old 1', author: 'Alice', createdAt: '2024-01-01T08:00:00Z' },
+                    { id: '2', message: 'Old 2', author: 'Bob', createdAt: '2024-01-01T09:00:00Z' },
                 ];
 
                 let callCount = 0;
@@ -870,14 +870,14 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 // Return older messages in reverse order (API returns newest first)
                 const olderMessages: Message[] = [
-                    { id: '3', message: 'Third', author: 'Charlie', timestamp: '2024-01-01T12:00:00Z' },
-                    { id: '2', message: 'Second', author: 'Bob', timestamp: '2024-01-01T11:00:00Z' },
-                    { id: '1', message: 'First', author: 'Alice', timestamp: '2024-01-01T10:00:00Z' },
+                    { id: '3', message: 'Third', author: 'Charlie', createdAt: '2024-01-01T12:00:00Z' },
+                    { id: '2', message: 'Second', author: 'Bob', createdAt: '2024-01-01T11:00:00Z' },
+                    { id: '1', message: 'First', author: 'Alice', createdAt: '2024-01-01T10:00:00Z' },
                 ];
 
                 let callCount = 0;
@@ -911,12 +911,12 @@ describe('useMessages', () => {
                     id: String(i + 10),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 const olderMessages: Message[] = [
-                    { id: '1', message: 'Old 1', author: 'Alice', timestamp: '2024-01-01T08:00:00Z' },
-                    { id: '2', message: 'Old 2', author: 'Bob', timestamp: '2024-01-01T09:00:00Z' },
+                    { id: '1', message: 'Old 1', author: 'Alice', createdAt: '2024-01-01T08:00:00Z' },
+                    { id: '2', message: 'Old 2', author: 'Bob', createdAt: '2024-01-01T09:00:00Z' },
                 ];
 
                 let callCount = 0;
@@ -940,8 +940,8 @@ describe('useMessages', () => {
 
                 // Verify all messages are in chronological order
                 for (let i = 1; i < result.current.messages.length; i++) {
-                    const prevTime = new Date(result.current.messages[i - 1].timestamp).getTime();
-                    const currTime = new Date(result.current.messages[i].timestamp).getTime();
+                    const prevTime = new Date(result.current.messages[i - 1].createdAt).getTime();
+                    const currTime = new Date(result.current.messages[i].createdAt).getTime();
                     expect(currTime).toBeGreaterThanOrEqual(prevTime);
                 }
             });
@@ -953,7 +953,7 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 // Return full limit of older messages
@@ -961,7 +961,7 @@ describe('useMessages', () => {
                     id: String(i + 1),
                     message: `Old ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 1, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 1, 10, i).toISOString(),
                 }));
 
                 let callCount = 0;
@@ -991,12 +991,12 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 // Return fewer than limit
                 const olderMessages: Message[] = [
-                    { id: '1', message: 'Old 1', author: 'Alice', timestamp: '2024-01-01T08:00:00Z' },
+                    { id: '1', message: 'Old 1', author: 'Alice', createdAt: '2024-01-01T08:00:00Z' },
                 ];
 
                 let callCount = 0;
@@ -1026,7 +1026,7 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 let callCount = 0;
@@ -1058,7 +1058,7 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 const error = new Error('Network error');
@@ -1090,7 +1090,7 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 let callCount = 0;
@@ -1120,7 +1120,7 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 let callCount = 0;
@@ -1152,7 +1152,7 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 let callCount = 0;
@@ -1185,7 +1185,7 @@ describe('useMessages', () => {
                     id: String(i + 100),
                     message: `Message ${i}`,
                     author: 'User',
-                    timestamp: new Date(2024, 0, 2, 10, i).toISOString(),
+                    createdAt: new Date(2024, 0, 2, 10, i).toISOString(),
                 }));
 
                 let callCount = 0;
@@ -1281,7 +1281,7 @@ describe('Property-Based Tests: useMessages', () => {
                             id: messageId,
                             message: messageText,
                             author: authorName,
-                            timestamp: timestamp,
+                            createdAt: timestamp,
                         };
                         mockSendMessage.mockResolvedValue(returnedMessage);
 
@@ -1305,7 +1305,7 @@ describe('Property-Based Tests: useMessages', () => {
                         expect(messageInList).toBeDefined();
                         expect(messageInList?.message).toBe(returnedMessage.message);
                         expect(messageInList?.author).toBe(returnedMessage.author);
-                        expect(messageInList?.timestamp).toBe(returnedMessage.timestamp);
+                        expect(messageInList?.createdAt).toBe(returnedMessage.createdAt);
                     }
                 ),
                 { numRuns: 20 }
@@ -1321,7 +1321,7 @@ describe('Property-Based Tests: useMessages', () => {
                             id: fc.uuid(),
                             message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                             author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                            timestamp: isoTimestampArb,
+                            createdAt: isoTimestampArb,
                         }),
                         { minLength: 0, maxLength: 5 }
                     ),
@@ -1330,7 +1330,7 @@ describe('Property-Based Tests: useMessages', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: isoTimestampArb,
+                        createdAt: isoTimestampArb,
                     }),
                     async (existingMessages, newMessage) => {
                         // Reset mocks for each iteration
@@ -1345,7 +1345,7 @@ describe('Property-Based Tests: useMessages', () => {
                             id: newMessage.id,
                             message: newMessage.message,
                             author: newMessage.author,
-                            timestamp: newMessage.timestamp,
+                            createdAt: newMessage.createdAt,
                         };
                         mockSendMessage.mockResolvedValue(returnedMessage);
 
@@ -1390,7 +1390,7 @@ describe('Property-Based Tests: useMessages', () => {
                             id: fc.uuid(),
                             message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                             author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                            timestamp: fc.integer({ min: 1577836800000, max: 1735689600000 })
+                            createdAt: fc.integer({ min: 1577836800000, max: 1735689600000 })
                                 .map(ts => new Date(ts).toISOString()),
                         }),
                         { minLength: 1, maxLength: 3 }
@@ -1400,7 +1400,7 @@ describe('Property-Based Tests: useMessages', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: fc.integer({ min: 1735689600001, max: 1893456000000 })
+                        createdAt: fc.integer({ min: 1735689600001, max: 1893456000000 })
                             .map(ts => new Date(ts).toISOString()),
                     }),
                     async (existingMessages, newMessage) => {
@@ -1415,7 +1415,7 @@ describe('Property-Based Tests: useMessages', () => {
                             id: newMessage.id,
                             message: newMessage.message,
                             author: newMessage.author,
-                            timestamp: newMessage.timestamp,
+                            createdAt: newMessage.createdAt,
                         };
                         mockSendMessage.mockResolvedValue(returnedMessage);
 
@@ -1485,7 +1485,7 @@ describe('Property 6: Successful Send Clears Input', () => {
                         id: messageId,
                         message: messageText,
                         author: authorName,
-                        timestamp: timestamp,
+                        createdAt: timestamp,
                     };
                     mockSendMessage.mockResolvedValue(returnedMessage);
 
@@ -1537,7 +1537,7 @@ describe('Property 6: Successful Send Clears Input', () => {
                         id: messageId,
                         message: messageText,
                         author: authorName,
-                        timestamp: timestamp,
+                        createdAt: timestamp,
                     };
                     mockSendMessage.mockResolvedValue(returnedMessage);
 
@@ -1585,7 +1585,7 @@ describe('Property 6: Successful Send Clears Input', () => {
                         id: messageId,
                         message: messageText,
                         author: authorName,
-                        timestamp: timestamp,
+                        createdAt: timestamp,
                     };
                     mockSendMessage.mockResolvedValue(returnedMessage);
 
@@ -1637,7 +1637,7 @@ describe('Property 9: Pagination Uses After Parameter', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: isoTimestampArb,
+                        createdAt: isoTimestampArb,
                     }),
                     { minLength: 30, maxLength: 30 } // Exactly 30 to trigger hasMore=true
                 ),
@@ -1673,7 +1673,7 @@ describe('Property 9: Pagination Uses After Parameter', () => {
                     expect(result.current.messages.length).toBeGreaterThan(0);
 
                     // Get the oldest message timestamp (first message after sorting)
-                    const oldestTimestamp = result.current.messages[0].timestamp;
+                    const oldestTimestamp = result.current.messages[0].createdAt;
 
                     // Act: Call loadMore
                     await act(async () => {
@@ -1699,7 +1699,7 @@ describe('Property 9: Pagination Uses After Parameter', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: isoTimestampArb,
+                        createdAt: isoTimestampArb,
                     }),
                     { minLength: 30, maxLength: 30 }
                 ),
@@ -1729,12 +1729,12 @@ describe('Property 9: Pagination Uses After Parameter', () => {
                     // The hook sorts messages chronologically, so messages[0] should be the oldest
                     // Calculate what the oldest timestamp should be
                     const sortedMessages = [...initialMessages].sort(
-                        (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+                        (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
                     );
-                    const expectedOldestTimestamp = sortedMessages[0].timestamp;
+                    const expectedOldestTimestamp = sortedMessages[0].createdAt;
 
                     // Verify the hook sorted correctly
-                    expect(result.current.messages[0].timestamp).toBe(expectedOldestTimestamp);
+                    expect(result.current.messages[0].createdAt).toBe(expectedOldestTimestamp);
 
                     // Act: Call loadMore
                     await act(async () => {
@@ -1760,7 +1760,7 @@ describe('Property 9: Pagination Uses After Parameter', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: isoTimestampArb,
+                        createdAt: isoTimestampArb,
                     }),
                     { minLength: 50, maxLength: 50 } // Generate enough messages
                 ),
@@ -1832,7 +1832,7 @@ describe('Property 10: Older Messages Prepended', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: fc.integer({ min: 1704067200000, max: 1735689600000 }) // 2024-01-01 to 2025-01-01
+                        createdAt: fc.integer({ min: 1704067200000, max: 1735689600000 }) // 2024-01-01 to 2025-01-01
                             .map(ts => new Date(ts).toISOString()),
                     }),
                     { minLength: 30, maxLength: 30 } // Exactly 30 to trigger hasMore=true
@@ -1843,7 +1843,7 @@ describe('Property 10: Older Messages Prepended', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: fc.integer({ min: 1640995200000, max: 1672531199000 }) // 2022-01-01 to 2022-12-31
+                        createdAt: fc.integer({ min: 1640995200000, max: 1672531199000 }) // 2022-01-01 to 2022-12-31
                             .map(ts => new Date(ts).toISOString()),
                     }),
                     { minLength: 1, maxLength: 10 }
@@ -1914,7 +1914,7 @@ describe('Property 10: Older Messages Prepended', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: fc.integer({ min: 1704067200000, max: 1735689600000 }) // 2024
+                        createdAt: fc.integer({ min: 1704067200000, max: 1735689600000 }) // 2024
                             .map(ts => new Date(ts).toISOString()),
                     }),
                     { minLength: 30, maxLength: 30 }
@@ -1925,7 +1925,7 @@ describe('Property 10: Older Messages Prepended', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: fc.integer({ min: 1640995200000, max: 1672531199000 }) // 2022
+                        createdAt: fc.integer({ min: 1640995200000, max: 1672531199000 }) // 2022
                             .map(ts => new Date(ts).toISOString()),
                     }),
                     { minLength: 1, maxLength: 10 }
@@ -1959,8 +1959,8 @@ describe('Property 10: Older Messages Prepended', () => {
                     // Assert: All messages are in chronological order (oldest first)
                     const messages = result.current.messages;
                     for (let i = 1; i < messages.length; i++) {
-                        const prevTime = new Date(messages[i - 1].timestamp).getTime();
-                        const currTime = new Date(messages[i].timestamp).getTime();
+                        const prevTime = new Date(messages[i - 1].createdAt).getTime();
+                        const currTime = new Date(messages[i].createdAt).getTime();
                         expect(currTime).toBeGreaterThanOrEqual(prevTime);
                     }
                 }
@@ -1978,7 +1978,7 @@ describe('Property 10: Older Messages Prepended', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: fc.integer({ min: 1704067200000, max: 1735689600000 }) // 2024
+                        createdAt: fc.integer({ min: 1704067200000, max: 1735689600000 }) // 2024
                             .map(ts => new Date(ts).toISOString()),
                     }),
                     { minLength: 30, maxLength: 30 }
@@ -1989,7 +1989,7 @@ describe('Property 10: Older Messages Prepended', () => {
                         id: fc.uuid(),
                         message: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0),
                         author: fc.string({ minLength: 1, maxLength: 30 }).filter(s => s.trim().length > 0),
-                        timestamp: fc.integer({ min: 1640995200000, max: 1672531199000 }) // 2022
+                        createdAt: fc.integer({ min: 1640995200000, max: 1672531199000 }) // 2022
                             .map(ts => new Date(ts).toISOString()),
                     }),
                     { minLength: 1, maxLength: 10 }
@@ -2017,7 +2017,7 @@ describe('Property 10: Older Messages Prepended', () => {
 
                     // Get the previously oldest message (first in sorted list)
                     const previouslyOldestMessage = result.current.messages[0];
-                    const previouslyOldestTimestamp = new Date(previouslyOldestMessage.timestamp).getTime();
+                    const previouslyOldestTimestamp = new Date(previouslyOldestMessage.createdAt).getTime();
 
                     // Act: Call loadMore
                     await act(async () => {
@@ -2034,7 +2034,7 @@ describe('Property 10: Older Messages Prepended', () => {
                         // All messages before this index should be from the older messages batch
                         // and should have timestamps earlier than the previously oldest
                         for (let i = 0; i < previouslyOldestIndex; i++) {
-                            const msgTimestamp = new Date(result.current.messages[i].timestamp).getTime();
+                            const msgTimestamp = new Date(result.current.messages[i].createdAt).getTime();
                             expect(msgTimestamp).toBeLessThanOrEqual(previouslyOldestTimestamp);
                         }
                     }

@@ -12,7 +12,7 @@ export interface Message {
     id: string;
     message: string;
     author: string;
-    timestamp: string; // ISO 8601 format
+    createdAt: string; // ISO 8601 format
 }
 
 /**

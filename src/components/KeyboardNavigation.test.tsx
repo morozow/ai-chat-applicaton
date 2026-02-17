@@ -100,7 +100,7 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
                 id: '1',
                 message: 'Test',
                 author: 'User',
-                timestamp: new Date().toISOString()
+                createdAt: new Date().toISOString()
             }];
 
             render(
@@ -178,7 +178,7 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
                 id: '1',
                 message: 'Test',
                 author: 'User',
-                timestamp: new Date().toISOString()
+                createdAt: new Date().toISOString()
             }];
 
             render(
@@ -291,7 +291,7 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
                 id: '1',
                 message: 'Test',
                 author: 'User',
-                timestamp: new Date().toISOString()
+                createdAt: new Date().toISOString()
             }];
 
             render(
@@ -317,7 +317,7 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
                 id: '1',
                 message: 'Test',
                 author: 'User',
-                timestamp: new Date().toISOString()
+                createdAt: new Date().toISOString()
             }];
 
             render(
