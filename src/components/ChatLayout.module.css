@@ -7,12 +7,12 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     max-height: 100vh;
     margin: 0 auto;
     background-color: var(--color-surface);
     /* Prevent horizontal overflow - Requirement 7.3 */
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 /* Mobile: full width with comfortable spacing - Requirement 7.2 */

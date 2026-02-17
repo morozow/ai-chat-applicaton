@@ -6,6 +6,8 @@
 .form {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
+    /* Don't shrink - stay at bottom */
     gap: var(--spacing-sm);
     padding: var(--spacing-md);
     background-color: var(--color-surface);
