@@ -34,6 +34,8 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
 
             // Get all interactive elements - author input comes first in DOM
             const authorInput = screen.getByLabelText(/your name/i);
+            const saveButton = screen.getByRole('button', { name: /save name/i });
+            const clearButton = screen.getByRole('button', { name: /clear name/i });
             const messageTextarea = screen.getByLabelText(/^message$/i);
             const sendButton = screen.getByRole('button', { name: /send/i });
 
@@ -43,6 +45,14 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
             // Start by focusing the first element (author input)
             authorInput.focus();
             expect(document.activeElement).toBe(authorInput);
+
+            // Tab to save button
+            await user.tab();
+            expect(document.activeElement).toBe(saveButton);
+
+            // Tab to clear button
+            await user.tab();
+            expect(document.activeElement).toBe(clearButton);
 
             // Tab to message textarea
             await user.tab();
@@ -61,6 +71,8 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
             render(<MessageInput onSend={mockOnSend} defaultAuthor="User" />);
 
             const authorInput = screen.getByLabelText(/your name/i);
+            const saveButton = screen.getByRole('button', { name: /save name/i });
+            const clearButton = screen.getByRole('button', { name: /clear name/i });
             const messageTextarea = screen.getByLabelText(/^message$/i);
             const sendButton = screen.getByRole('button', { name: /send/i });
 
@@ -74,6 +86,14 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
             // Shift+Tab to message textarea
             await user.tab({ shift: true });
             expect(document.activeElement).toBe(messageTextarea);
+
+            // Shift+Tab to clear button
+            await user.tab({ shift: true });
+            expect(document.activeElement).toBe(clearButton);
+
+            // Shift+Tab to save button
+            await user.tab({ shift: true });
+            expect(document.activeElement).toBe(saveButton);
 
             // Shift+Tab to author input
             await user.tab({ shift: true });

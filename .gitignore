@@ -274,3 +274,5 @@ Temporary Items
 *.njsproj
 *.sln
 *.sw?
+
+sandbox

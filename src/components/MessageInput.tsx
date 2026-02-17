@@ -106,27 +106,23 @@ function MessageInput({ onSend, disabled = false, defaultAuthor = '' }: MessageI
                         disabled={disabled}
                         aria-label="Your name"
                     />
-                    {isEditing && (
-                        <>
-                            <button
-                                type="button"
-                                className={`${styles.iconButton} ${styles.saveIcon}`}
-                                onClick={handleSaveName}
-                                disabled={trimmedAuthor.length === 0}
-                                aria-label="Save name"
-                            >
-                                ✓
-                            </button>
-                            <button
-                                type="button"
-                                className={`${styles.iconButton} ${styles.cancelIcon}`}
-                                onClick={handleCancelEdit}
-                                aria-label="Cancel editing name"
-                            >
-                                ✕
-                            </button>
-                        </>
-                    )}
+                    <button
+                        type="button"
+                        className={`${styles.iconButton} ${styles.saveIcon}`}
+                        onClick={handleSaveName}
+                        disabled={trimmedAuthor.length === 0}
+                        aria-label="Save name"
+                    >
+                        ✓
+                    </button>
+                    <button
+                        type="button"
+                        className={`${styles.iconButton} ${styles.cancelIcon}`}
+                        onClick={isEditing ? handleCancelEdit : () => setAuthor('')}
+                        aria-label={isEditing ? 'Cancel editing name' : 'Clear name'}
+                    >
+                        ✕
+                    </button>
                 </div>
             ) : (
                 <div className={styles.authorBadge}>
