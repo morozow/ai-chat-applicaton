@@ -1,10 +1,12 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MessageInput from './MessageInput';
 import ErrorBanner from './ErrorBanner';
 import MessageList from './MessageList';
 import type { Message } from '../types';
+
+const AUTHOR_STORAGE_KEY = 'chat_author_name';
 
 /**
  * Keyboard Navigation Tests
@@ -15,6 +17,13 @@ import type { Message } from '../types';
  * 8.4: THE Chat_Application SHALL provide visible focus indicators on all interactive elements
  */
 describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
+    beforeEach(() => {
+        localStorage.removeItem(AUTHOR_STORAGE_KEY);
+    });
+
+    afterEach(() => {
+        localStorage.removeItem(AUTHOR_STORAGE_KEY);
+    });
     describe('Tab Navigation Order (Requirement 8.1)', () => {
         it('should navigate through MessageInput elements with Tab key in correct order', async () => {
             const user = userEvent.setup();
@@ -23,21 +32,21 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
             // Provide valid input so send button is enabled and focusable
             render(<MessageInput onSend={mockOnSend} defaultAuthor="User" />);
 
-            // Get all interactive elements
-            const messageTextarea = screen.getByLabelText(/^message$/i);
+            // Get all interactive elements - author input comes first in DOM
             const authorInput = screen.getByLabelText(/your name/i);
+            const messageTextarea = screen.getByLabelText(/^message$/i);
             const sendButton = screen.getByRole('button', { name: /send/i });
 
             // Fill in message to enable the send button
             await user.type(messageTextarea, 'Test message');
 
-            // Start by focusing the first element
-            messageTextarea.focus();
-            expect(document.activeElement).toBe(messageTextarea);
-
-            // Tab to author input
-            await user.tab();
+            // Start by focusing the first element (author input)
+            authorInput.focus();
             expect(document.activeElement).toBe(authorInput);
+
+            // Tab to message textarea
+            await user.tab();
+            expect(document.activeElement).toBe(messageTextarea);
 
             // Tab to send button (now enabled)
             await user.tab();
@@ -51,8 +60,8 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
             // Provide valid input so send button is enabled and focusable
             render(<MessageInput onSend={mockOnSend} defaultAuthor="User" />);
 
-            const messageTextarea = screen.getByLabelText(/^message$/i);
             const authorInput = screen.getByLabelText(/your name/i);
+            const messageTextarea = screen.getByLabelText(/^message$/i);
             const sendButton = screen.getByRole('button', { name: /send/i });
 
             // Fill in message to enable the send button
@@ -62,13 +71,13 @@ describe('Keyboard Navigation - Requirements 8.1, 8.4', () => {
             sendButton.focus();
             expect(document.activeElement).toBe(sendButton);
 
-            // Shift+Tab to author input
-            await user.tab({ shift: true });
-            expect(document.activeElement).toBe(authorInput);
-
             // Shift+Tab to message textarea
             await user.tab({ shift: true });
             expect(document.activeElement).toBe(messageTextarea);
+
+            // Shift+Tab to author input
+            await user.tab({ shift: true });
+            expect(document.activeElement).toBe(authorInput);
         });
 
         it('should allow Tab navigation to ErrorBanner retry button', async () => {
