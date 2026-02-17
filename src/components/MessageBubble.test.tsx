@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import * as fc from 'fast-check';
 import MessageBubble from './MessageBubble';
 import type { Message } from '../types';
 
@@ -171,3 +172,70 @@ describe('MessageBubble', () => {
         });
     });
 });
+
+describe('Feature: chat-application, Property 3: Message Rendering Completeness', () => {
+    /**
+     * **Validates: Requirements 3.1, 3.2, 3.3**
+     *
+     * Property: For any Message object with non-empty author, message, and timestamp fields,
+     * the rendered MessageBubble SHALL contain the author name, the message text,
+     * and a human-readable formatted timestamp.
+     */
+    it('renders author, message text, and formatted timestamp for any valid message', () => {
+        // Generator for non-empty strings (author and message)
+        const nonEmptyString = fc.string({ minLength: 1 }).filter(s => s.trim().length > 0);
+
+        // Generator for valid ISO 8601 timestamps using integer components
+        const validTimestamp = fc.tuple(
+            fc.integer({ min: 2000, max: 2099 }), // year
+            fc.integer({ min: 0, max: 11 }),      // month (0-indexed)
+            fc.integer({ min: 1, max: 28 }),      // day (safe for all months)
+            fc.integer({ min: 0, max: 23 }),      // hour
+            fc.integer({ min: 0, max: 59 }),      // minute
+            fc.integer({ min: 0, max: 59 }),      // second
+        ).map(([year, month, day, hour, minute, second]) => {
+            const date = new Date(Date.UTC(year, month, day, hour, minute, second));
+            return date.toISOString();
+        });
+
+        // Generator for valid Message objects
+        const validMessage = fc.record({
+            id: fc.uuid(),
+            author: nonEmptyString,
+            message: nonEmptyString,
+            timestamp: validTimestamp,
+        });
+
+        fc.assert(
+            fc.property(validMessage, (message) => {
+                const { container, unmount } = render(<MessageBubble message={message} />);
+
+                try {
+                    // Requirement 3.1: Author name is visible
+                    const authorElement = container.querySelector('[class*="author"]');
+                    expect(authorElement).not.toBeNull();
+                    expect(authorElement?.textContent).toBe(message.author);
+
+                    // Requirement 3.2: Message text is visible
+                    const textElement = container.querySelector('p');
+                    expect(textElement).not.toBeNull();
+                    expect(textElement?.textContent).toBe(message.message);
+
+                    // Requirement 3.3: Formatted timestamp is visible
+                    const timeElement = container.querySelector('time');
+                    expect(timeElement).not.toBeNull();
+                    expect(timeElement?.getAttribute('dateTime')).toBe(message.timestamp);
+                    // Verify the timestamp is human-readable (not empty)
+                    expect(timeElement?.textContent).not.toBe('');
+                    expect(timeElement?.textContent?.length).toBeGreaterThan(0);
+
+                    return true;
+                } finally {
+                    unmount();
+                }
+            }),
+            { numRuns: 100 }
+        );
+    });
+});
+
