@@ -61,34 +61,41 @@ h6 {
    CSS Custom Properties
    -------------------------------------------------------------------------- */
 :root {
-    /* Color Scheme - Light Mode */
-    --color-primary: #4f46e5;
-    --color-primary-hover: #4338ca;
-    --color-primary-light: #e0e7ff;
+    /* Color Scheme - Custom Palette */
+    --color-primary: #2a8293;
+    --color-primary-hover: #004d72;
+    --color-primary-light: #b2e3f6;
 
-    --color-background: #f9fafb;
-    --color-surface: #ffffff;
-    --color-surface-elevated: #ffffff;
+    --color-background: #02040F;
+    --color-surface: #002642;
+    --color-surface-elevated: #004d72;
 
-    --color-text-primary: #111827;
-    --color-text-secondary: #6b7280;
-    --color-text-muted: #9ca3af;
-    --color-text-inverse: #ffffff;
+    --color-text-primary: #E5DADA;
+    --color-text-secondary: #9B97B2;
+    --color-text-muted: #6a737d;
+    --color-text-inverse: #02040F;
 
-    --color-border: #e5e7eb;
-    --color-border-focus: #4f46e5;
+    --color-border: #6a737d;
+    --color-border-focus: #2a8293;
 
-    --color-error: #dc2626;
-    --color-error-background: #fef2f2;
-    --color-error-border: #fecaca;
+    --color-error: #840032;
+    --color-error-background: #02040F;
+    --color-error-border: #840032;
 
-    --color-success: #16a34a;
+    --color-success: #98C379;
 
     /* Message Bubble Colors */
-    --color-bubble-own: #4f46e5;
-    --color-bubble-own-text: #ffffff;
-    --color-bubble-other: #e5e7eb;
-    --color-bubble-other-text: #111827;
+    --color-bubble-own: #2a8293;
+    --color-bubble-own-text: #E5DADA;
+    --color-bubble-other: #004d72;
+    --color-bubble-other-text: #E5DADA;
+
+    /* Accent Colors */
+    --color-accent-orange: #E59500;
+    --color-accent-purple: #C678DD;
+    --color-accent-green: #98C379;
+    --color-accent-peach: #D19A66;
+    --color-accent-mint: #8fffb3;
 
     /* Spacing Scale */
     --spacing-xs: 0.25rem;
@@ -128,21 +135,21 @@ h6 {
     --line-height-normal: 1.5;
     --line-height-relaxed: 1.75;
 
-    /* Border Radius */
+    /* Border Radius - 4px base */
     --radius-sm: 0.25rem;
     /* 4px */
-    --radius-md: 0.5rem;
-    /* 8px */
-    --radius-lg: 0.75rem;
-    /* 12px */
-    --radius-xl: 1rem;
-    /* 16px */
+    --radius-md: 0.25rem;
+    /* 4px */
+    --radius-lg: 0.25rem;
+    /* 4px */
+    --radius-xl: 0.25rem;
+    /* 4px */
     --radius-full: 9999px;
 
     /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2);
 
     /* Transitions */
     --transition-fast: 150ms ease;
@@ -154,45 +161,13 @@ h6 {
     --container-padding: var(--spacing-md);
 
     /* Focus Ring */
-    --focus-ring: 0 0 0 3px var(--color-primary-light);
+    --focus-ring: 0 0 0 2px var(--color-primary-light);
 
     /* Z-Index Scale */
     --z-dropdown: 100;
     --z-sticky: 200;
     --z-modal: 300;
     --z-toast: 400;
-}
-
-/* --------------------------------------------------------------------------
-   Dark Mode (optional, respects system preference)
-   -------------------------------------------------------------------------- */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-primary: #818cf8;
-        --color-primary-hover: #a5b4fc;
-        --color-primary-light: #312e81;
-
-        --color-background: #111827;
-        --color-surface: #1f2937;
-        --color-surface-elevated: #374151;
-
-        --color-text-primary: #f9fafb;
-        --color-text-secondary: #d1d5db;
-        --color-text-muted: #9ca3af;
-        --color-text-inverse: #111827;
-
-        --color-border: #374151;
-        --color-border-focus: #818cf8;
-
-        --color-error: #f87171;
-        --color-error-background: #450a0a;
-        --color-error-border: #7f1d1d;
-
-        --color-bubble-own: #4f46e5;
-        --color-bubble-own-text: #ffffff;
-        --color-bubble-other: #374151;
-        --color-bubble-other-text: #f9fafb;
-    }
 }
 
 /* --------------------------------------------------------------------------
