@@ -37,18 +37,13 @@ function MessageBubble({ message, isCurrentUser = false }: MessageBubbleProps) {
             className={`${styles.bubble} ${isCurrentUser ? styles.own : styles.other}`}
             aria-label={`Message from ${message.author}`}
         >
-            <header className={styles.header}>
-                <span className={styles.author}>{message.author}</span>
-                {formattedTime && (
-                    <>
-                        <span className={styles.separator}>|</span>
-                        <time className={styles.timestamp} dateTime={message.createdAt}>
-                            {formattedTime}
-                        </time>
-                    </>
-                )}
-            </header>
+            <span className={styles.author}>{message.author}</span>
             <p className={styles.text}>{message.message}</p>
+            {formattedTime && (
+                <time className={styles.timestamp} dateTime={message.createdAt}>
+                    {formattedTime}
+                </time>
+            )}
         </article>
     );
 }
