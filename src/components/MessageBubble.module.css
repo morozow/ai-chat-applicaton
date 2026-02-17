@@ -31,17 +31,10 @@
     border-bottom-left-radius: var(--radius-sm);
 }
 
-.header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-xs);
-}
-
 .author {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-xs);
 }
 
 .own .author {
@@ -54,13 +47,8 @@
 
 .timestamp {
     font-size: var(--font-size-xs);
-    opacity: 0.8;
-}
-
-.separator {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-semibold);
-    opacity: 0.4;
+    opacity: 0.7;
+    margin-top: var(--spacing-xs);
 }
 
 .own .timestamp {
